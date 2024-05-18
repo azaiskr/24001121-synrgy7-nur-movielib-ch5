@@ -1,5 +1,6 @@
 package com.synrgy.mobielib.data.remote.api
 
+import android.content.Context
 import com.synrgy.mobielib.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit
 class ApiConfig {
 
     companion object {
-        fun getApiService(): ApiService {
+        fun getApiService(context: Context): ApiService {
             val loggingInterceptor = HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
 
