@@ -16,17 +16,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.synrgy.mobielib.R
+import com.synrgy.mobielib.data.local.UserModel
 import com.synrgy.mobielib.ui.components.MainButton
+import com.synrgy.mobielib.utils.ViewModelFactory
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    user: UserModel,
 ) {
+    val viewModel : ProfileViewModel = viewModel(
+        factory = ViewModelFactory.getInstanceViewModel(LocalContext.current)
+    )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize().padding(horizontal = 16.dp)
@@ -42,16 +51,22 @@ fun ProfileScreen(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "N Azis Kurnia R",
+            text = user.username,
             modifier = modifier
                 .padding(vertical = 16.dp),
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             color = Color.White
         )
+        Text(
+            text = user.email,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.White
+        )
         Spacer(modifier = Modifier.height(32.dp))
         MainButton(modifier = modifier, onClick = { /*TODO*/ }, outlined = true, labelText = "Update data")
         Spacer(modifier = Modifier.height(8.dp))
-        MainButton(modifier = modifier, onClick = { /*TODO*/ }, outlined = false, labelText = "Logout")
+        MainButton(modifier = modifier, onClick = { viewModel.clearSession() }, outlined = false, labelText = "Logout")
     }
 }

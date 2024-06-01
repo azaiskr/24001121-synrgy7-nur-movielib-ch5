@@ -20,16 +20,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.synrgy.mobielib.data.local.UserModel
 import com.synrgy.mobielib.ui.components.TopAppBar
 import com.synrgy.mobielib.ui.main.DetailMovieScreen
 import com.synrgy.mobielib.ui.main.ListMovieScreen
 import com.synrgy.mobielib.ui.main.ProfileScreen
 
 @Composable
-@Preview
 fun HomeNavigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    user: UserModel,
+    onLogOut: () -> Unit,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -43,6 +45,7 @@ fun HomeNavigation(
                 sectionTitle = when (currentRoute) {
                     Screen.Profile.route -> "Profile"
                     Screen.DetailMovie.route -> "Detail Movie"
+                    Screen.Home.route -> "Hi, ${user.username}"
                     else -> ""
                 },
                 backIcon = currentRoute != Screen.Home.route,
@@ -68,7 +71,7 @@ fun HomeNavigation(
                 DetailMovieScreen(movieId = movieId)
             }
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(user = user,)
             }
         }
     }

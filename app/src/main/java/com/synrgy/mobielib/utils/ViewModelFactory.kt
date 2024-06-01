@@ -8,10 +8,11 @@ import com.synrgy.mobielib.repository.MovieLibRepo
 import com.synrgy.mobielib.ui.auth.AuthViewModel
 import com.synrgy.mobielib.ui.main.DetailMovieViewModel
 import com.synrgy.mobielib.ui.main.ListMovieViewModel
+import com.synrgy.mobielib.ui.main.ProfileViewModel
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory (
-    private val repository: MovieLibRepo
+class ViewModelFactory(
+    private val repository: MovieLibRepo,
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -19,12 +20,18 @@ class ViewModelFactory (
             modelClass.isAssignableFrom(AuthViewModel::class.java) -> {
                 AuthViewModel(repository) as T
             }
+
             modelClass.isAssignableFrom(ListMovieViewModel::class.java) -> {
                 ListMovieViewModel(repository) as T
             }
+
             modelClass.isAssignableFrom(DetailMovieViewModel::class.java) -> {
                 DetailMovieViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
+                ProfileViewModel(repository) as T
+            }
+
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }
     }
@@ -35,7 +42,9 @@ class ViewModelFactory (
         private var instance: ViewModelFactory? = null
         fun getInstanceViewModel(context: Context): ViewModelFactory {
             return instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository(context))
+                instance ?: ViewModelFactory(
+                    Injection.provideRepository(context),
+                )
             }.also { instance = it }
         }
     }
