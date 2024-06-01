@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="24dp"
     android:paddingVertical="48dp"
-    tools:context=".ui.auth.RegisterFragment">
+    tools:context=".presentation.ui.auth.RegisterFragment">
 
     <TextView
         android:fontFamily="@font/muli_extrabold"
@@ -20,11 +20,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivLogin"
         android:layout_width="wrap_content"
         android:layout_height="210dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/movielogo1"
+        android:layout_marginTop="8.dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvLogin" />

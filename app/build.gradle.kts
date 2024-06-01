@@ -1,7 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    id("com.google.devtools.ksp")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
 }
+
 
 android {
     namespace = "com.synrgy.mobielib"
@@ -14,7 +20,11 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "AUTHORIZATION", "\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZmNkNTU0MTY0MTk3ZTcxOTJkNzkyZjI4MDY2YmNmNiIsInN1YiI6IjY1NTY2ZTk2ZWVhMzRkMDExY2U4ZmQ4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JqDcGu1PfhWderV00s1HrPdA3H4rRQW16SpckFfrZYc\"")
+        buildConfigField(
+            "String",
+            "AUTHORIZATION",
+            "\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZmNkNTU0MTY0MTk3ZTcxOTJkNzkyZjI4MDY2YmNmNiIsInN1YiI6IjY1NTY2ZTk2ZWVhMzRkMDExY2U4ZmQ4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JqDcGu1PfhWderV00s1HrPdA3H4rRQW16SpckFfrZYc\""
+        )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -31,8 +41,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -41,7 +51,7 @@ android {
         compose = true
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -52,6 +62,7 @@ android {
         }
     }
 }
+
 
 dependencies {
 
@@ -68,15 +79,17 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
-    implementation (libs.circleimageview)
+    implementation(libs.circleimageview)
     implementation(libs.glide)
 
     implementation(libs.androidx.datastore.preferences)
 
     // INTEROP - compose
-    implementation (libs.androidx.ui)
-    implementation (libs.androidx.ui.tooling.preview)
-    implementation (libs.androidx.activity.compose)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.material3.android)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.activity.ktx)
@@ -88,6 +101,17 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+
+    //room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    //di
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.androidx.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

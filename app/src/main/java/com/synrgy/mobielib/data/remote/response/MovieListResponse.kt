@@ -2,6 +2,7 @@ package com.synrgy.mobielib.data.remote.response
 
 
 import com.google.gson.annotations.SerializedName
+import com.synrgy.mobielib.domain.model.MovieListModel
 
 
 data class MovieListResponse(
@@ -64,3 +65,14 @@ data class ResultsItem(
 	@field:SerializedName("vote_count")
 	val voteCount: Int
 )
+
+// mapper
+fun MovieListResponse.toMovieList() : List<MovieListModel> {
+	return results.map {
+		MovieListModel(
+			title = it.title,
+			overview = it.overview,
+			posterPath = it.posterPath
+		)
+	}
+}
