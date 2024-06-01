@@ -16,6 +16,9 @@ android {
 
         buildConfigField("String", "AUTHORIZATION", "\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZmNkNTU0MTY0MTk3ZTcxOTJkNzkyZjI4MDY2YmNmNiIsInN1YiI6IjY1NTY2ZTk2ZWVhMzRkMDExY2U4ZmQ4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JqDcGu1PfhWderV00s1HrPdA3H4rRQW16SpckFfrZYc\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -35,9 +38,18 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
@@ -61,7 +73,27 @@ dependencies {
 
     implementation(libs.androidx.datastore.preferences)
 
+    // INTEROP - compose
+    implementation (libs.androidx.ui)
+    implementation (libs.androidx.ui.tooling.preview)
+    implementation (libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.activity.ktx)
+
+    //coil
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
