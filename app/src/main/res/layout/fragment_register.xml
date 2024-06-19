@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="24dp"
     android:paddingVertical="48dp"
-    tools:context=".presentation.ui.auth.RegisterFragment">
+    tools:context="com.synrgy.mobielib.ui.auth.RegisterFragment">
 
     <TextView
         android:fontFamily="@font/muli_extrabold"

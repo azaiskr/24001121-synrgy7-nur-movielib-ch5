@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.synrgy.data"
+    namespace = "com.synrgy.core"
     compileSdk = 34
 
     defaultConfig {
@@ -28,18 +28,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
+
+
 }
 
 dependencies {
-
-    implementation(project(":common"))
-    implementation (project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -47,23 +46,9 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
-//    implementation(libs.androidx.navigation.fragment.ktx)
-//    implementation(libs.androidx.navigation.ui.ktx)
-
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
-
-    implementation(libs.androidx.datastore.preferences)
-
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
-
-    //room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
 
     //di
     implementation(libs.hilt.android)

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="24dp"
     android:paddingVertical="48dp"
-    tools:context=".presentation.ui.auth.LoginFragment">
+    tools:context="com.synrgy.mobielib.ui.auth.LoginFragment">
 
     <TextView
         android:id="@+id/tvLogin"
