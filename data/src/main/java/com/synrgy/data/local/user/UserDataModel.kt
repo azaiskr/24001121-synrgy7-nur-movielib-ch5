@@ -1,4 +1,4 @@
-package com.synrgy.data.local
+package com.synrgy.data.local.user
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -32,6 +32,9 @@ data class UserDataModel(
 
     @ColumnInfo(name="address")
     val address: String ?= null,
+
+    @ColumnInfo(name ="profileImg")
+    val profileImg: String ?= null,
 ) : Parcelable
 
 fun UserDataModel.toUser(): User {
@@ -39,10 +42,11 @@ fun UserDataModel.toUser(): User {
         username = username,
         email = email,
         password = password,
-        name = name ?: "Tidak ada data",
-        phone = phone ?: "Tidak ada data",
-        dob = dob ?: "Tidak ada data",
-        address = address ?: "Tidak ada data",
+        name = name,
+        phone = phone,
+        dob = dob,
+        address = address,
+        profileImg = profileImg
     )
 }
 
@@ -54,6 +58,7 @@ fun User.toUserDataModel(): UserDataModel {
         name = name,
         phone = phone,
         dob = dob,
-        address = address
+        address = address,
+        profileImg = profileImg
     )
 }

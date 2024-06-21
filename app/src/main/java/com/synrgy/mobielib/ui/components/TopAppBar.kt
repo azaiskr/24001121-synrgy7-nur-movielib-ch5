@@ -1,6 +1,7 @@
 package com.synrgy.mobielib.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,7 +20,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.synrgy.mobielib.R
+import com.synrgy.mobielib.ui.main.profile.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +35,7 @@ fun TopAppBar(
     onBackClick: () -> Unit,
     onProfileClick: () -> Unit,
     profileIcon: Boolean = true,
+    profileImage: String?,
 ) {
 
     androidx.compose.material3.TopAppBar(
@@ -59,7 +64,8 @@ fun TopAppBar(
             if (profileIcon) {
                 ProfileIcon(
                     modifier = modifier,
-                    onClick = onProfileClick
+                    onClick = onProfileClick,
+                    profileImage = profileImage,
                 )
             }
         },
@@ -76,15 +82,31 @@ fun TopAppBar(
 fun ProfileIcon(
     modifier: Modifier,
     onClick: () -> Unit,
+    profileImage: String?
 ) {
-    Image(
-        painter = painterResource(id = R.drawable.profile),
-        contentDescription = null,
-        modifier = modifier
-            .padding(end = 8.dp)
-            .clip(CircleShape)
-            .size(32.dp)
-            .clickable { onClick() },
-        contentScale = ContentScale.Crop
-    )
+    profileImage?.let {
+        Image(
+            painter = rememberAsyncImagePainter(model = it),
+            contentDescription = null,
+            modifier = modifier
+                .padding(end = 8.dp)
+                .clip(CircleShape)
+                .size(32.dp)
+                .background(Color.White)
+                .clickable { onClick() },
+            contentScale = ContentScale.Crop
+        )
+    } ?: run {
+        Image(
+            painter = painterResource(id = R.drawable.profile),
+            contentDescription = null,
+            modifier = modifier
+                .padding(end = 8.dp)
+                .clip(CircleShape)
+                .size(32.dp)
+                .clickable { onClick() },
+            contentScale = ContentScale.Crop
+        )
+    }
+
 }

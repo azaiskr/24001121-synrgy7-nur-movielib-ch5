@@ -66,7 +66,6 @@ data class ResultsItem(
 	val voteCount: Int
 )
 
-// mapper
 fun MovieListResponse.toMovieList() : List<MovieListModel> {
 	return results.map {
 		MovieListModel(

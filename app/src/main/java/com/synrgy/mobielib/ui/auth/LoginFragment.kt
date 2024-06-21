@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
                         }
 
                         is Resource.Error -> {
-                            showToast(it.exception)
+                            showToast("User not found")
                         }
 
                         else -> {}
@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun showToast(message: String?) {
+    fun showToast(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 }

@@ -9,4 +9,9 @@ interface MovieRepository {
     suspend fun getMovieListPopular(): List<MovieListModel>
     suspend fun getMovieListTopRated(): List<MovieListModel>
     suspend fun getMovieDetail(movieId: Int): MovieDetailModel
+
+    suspend fun getFavoriteMovies(): List<MovieListModel>
+    suspend fun addMovieToFavorite(movie: MovieListModel)
+    suspend fun removeMovieFromFavorite(movie: MovieListModel)
+
 }

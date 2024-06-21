@@ -2,9 +2,9 @@ package com.synrgy.data.repository
 
 import com.synrgy.data.SessionPreferences
 import com.synrgy.data.local.DatabaseImpl
-import com.synrgy.data.local.UserDao
-import com.synrgy.data.local.toUser
-import com.synrgy.data.local.toUserDataModel
+import com.synrgy.data.local.user.UserDao
+import com.synrgy.data.local.user.toUser
+import com.synrgy.data.local.user.toUserDataModel
 import com.synrgy.domain.model.User
 import com.synrgy.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -23,13 +23,23 @@ class UserRepositoryImpl @Inject constructor(
         return response
     }
 
-    override suspend fun loginUser(username: String, password: String): User {
+    override suspend fun getUser(username: String, password: String): User {
         val response = mUserDao.getUser(username, password)
         return response.toUser()
     }
 
-    override suspend fun updateUser(user: User) {
-        return mUserDao.updateUser(user.toUserDataModel())
+    override suspend fun updateProfileImage(profileUri: String, email: String) {
+        return mUserDao.updateProfileImage(profileUri, email)
+    }
+
+    override suspend fun updateProfileData(
+        name: String,
+        phone: String,
+        dob: String,
+        address: String,
+        email: String,
+    ) {
+        return mUserDao.updateUserData(name, phone, dob, address, email)
     }
 
     override suspend fun saveSession(user: User) {

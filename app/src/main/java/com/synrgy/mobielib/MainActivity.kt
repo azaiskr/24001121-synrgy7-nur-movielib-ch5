@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.synrgy.mobielib.ui.auth.AuthViewModel
+import com.synrgy.mobielib.utils.HomeNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

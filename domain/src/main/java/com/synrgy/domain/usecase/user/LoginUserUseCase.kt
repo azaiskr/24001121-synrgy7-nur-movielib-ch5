@@ -13,7 +13,7 @@ class LoginUserUseCase @Inject constructor(
     operator fun invoke(username: String, password: String) = liveData {
         emit(Resource.Loading)
         try {
-            val response = userRepository.loginUser(username, password)
+            val response = userRepository.getUser(username, password)
             emit(Resource.Success(response))
         } catch (e: Exception) {
             emit(Resource.Error(e.message))

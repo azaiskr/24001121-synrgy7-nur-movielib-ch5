@@ -1,17 +1,20 @@
-package com.synrgy.mobielib
+package com.synrgy.mobielib.utils
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.synrgy.data.SessionPreferences
 import com.synrgy.data.local.DatabaseImpl
+import com.synrgy.data.local.MIGRATION_2_3
 import com.synrgy.data.remote.api.ApiService
 import com.synrgy.data.repository.MovieRepositoryImpl
 import com.synrgy.data.repository.UserRepositoryImpl
 import com.synrgy.domain.repository.MovieRepository
 import com.synrgy.domain.repository.UserRepository
+import com.synrgy.mobielib.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -75,29 +78,24 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): DatabaseImpl {
+        Log.d("AppModule", "provideDatabase: called")
         return Room.databaseBuilder(
             context.applicationContext,
             DatabaseImpl::class.java,
             "movie_database"
         )
+            .addMigrations(MIGRATION_2_3)
             .fallbackToDestructiveMigration()
             .build()
     }
-
-//    @Singleton
-//    @Provides
-//    fun provideMovieRepository(
-//        apiService: ApiService,
-//    ): MovieRepositoryImpl {
-//        return MovieRepositoryImpl(apiService)
-//    }
 
     @Singleton
     @Provides
     fun provideMovieRepo(
         apiService: ApiService,
+        databaseImpl: DatabaseImpl
     ): MovieRepository {
-        return MovieRepositoryImpl(apiService)
+        return MovieRepositoryImpl(apiService,databaseImpl)
     }
 
     @Singleton
