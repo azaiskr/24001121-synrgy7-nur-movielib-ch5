@@ -40,6 +40,21 @@ android {
             )
         }
     }
+
+    flavorDimensions.add("tier")
+    productFlavors {
+        create("basic"){
+            dimension = "tier"
+            applicationIdSuffix = ".basic"
+            versionNameSuffix = "-basic"
+        }
+        create("premium"){
+            dimension = "tier"
+            applicationIdSuffix = ".premium"
+            versionNameSuffix = "-premium"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

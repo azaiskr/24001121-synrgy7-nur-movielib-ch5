@@ -48,7 +48,7 @@ fun BookmarksScreen(
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(bottom  =  16.dp)
             )
         }
 
