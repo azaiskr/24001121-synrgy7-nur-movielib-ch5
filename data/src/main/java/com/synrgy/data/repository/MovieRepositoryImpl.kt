@@ -1,5 +1,6 @@
 package com.synrgy.data.repository
 
+import android.util.Log
 import com.synrgy.data.local.DatabaseImpl
 import com.synrgy.data.local.movie.MovieDao
 import com.synrgy.data.remote.api.ApiService
@@ -10,6 +11,8 @@ import com.synrgy.data.remote.response.toMovieList
 import com.synrgy.domain.model.MovieDetailModel
 import com.synrgy.domain.model.MovieListModel
 import com.synrgy.domain.repository.MovieRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -40,19 +43,16 @@ class MovieRepositoryImpl @Inject constructor(
         return response.toMovieDetail()
     }
 
-    override suspend fun getFavoriteMovies(): List<MovieListModel> {
-        val response = mMovieDao.getAllFavMovie()
-        return response.toMovieList()
+    override fun getFavoriteMovies(): Flow<List<MovieListModel>> {
+        return mMovieDao.getAllFavMovie().map { it.toMovieList() }
     }
 
     override suspend fun addMovieToFavorite(movie: MovieListModel) {
-        val response = mMovieDao.addFavMovie(movie.toMovieDataModel())
-        return response
+        mMovieDao.addFavMovie(movie.toMovieDataModel())
     }
 
     override suspend fun removeMovieFromFavorite(movie: MovieListModel) {
-        val response = mMovieDao.deleteFavMovie(movie.toMovieDataModel())
-        return response
+       mMovieDao.deleteFavMovie(movie.toMovieDataModel())
     }
 
 }

@@ -8,5 +8,6 @@ sealed class Screen (
         fun createRoute(movieId: Int) = "home/$movieId"
     }
     data object Profile : Screen("home/profile")
+    data object Bookmarks : Screen("home/bookmarks")
 }
 

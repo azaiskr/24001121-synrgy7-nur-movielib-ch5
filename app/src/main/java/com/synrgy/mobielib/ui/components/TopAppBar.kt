@@ -3,6 +3,8 @@ package com.synrgy.mobielib.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -12,6 +14,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -32,7 +35,9 @@ fun TopAppBar(
     backIcon: Boolean = false,
     onBackClick: () -> Unit,
     onProfileClick: () -> Unit,
+    onBookmarksClick: () -> Unit,
     profileIcon: Boolean = true,
+    showBookmarkIcon: Boolean = true,
     profileImage: String?,
 ) {
 
@@ -46,25 +51,44 @@ fun TopAppBar(
             )
         },
         navigationIcon = {
-            if (backIcon) {
-                IconButton(
-                    onClick = { onBackClick() },
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.round_arrow_back),
-                        contentDescription = "back",
-                        tint = contentColor
-                    )
+
+                if (backIcon) {
+                    IconButton(
+                        onClick = { onBackClick() },
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.round_arrow_back),
+                            contentDescription = "back",
+                            tint = contentColor
+                        )
+                    }
                 }
-            }
         },
         actions = {
-            if (profileIcon) {
-                ProfileIcon(
-                    modifier = modifier,
-                    onClick = onProfileClick,
-                    profileImage = profileImage,
-                )
+            Row (
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ){
+
+                if (showBookmarkIcon){
+                    IconButton(
+                        onClick = { onBookmarksClick() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.round_bookmarks),
+                            contentDescription = "bookmarks",
+                            tint = contentColor
+                        )
+                    }
+                }
+                if (profileIcon) {
+                    ProfileIcon(
+                        modifier = modifier,
+                        onClick = onProfileClick,
+                        profileImage = profileImage,
+                    )
+                }
+
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

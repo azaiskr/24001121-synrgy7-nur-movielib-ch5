@@ -8,7 +8,10 @@ import com.synrgy.data.remote.api.ApiService
 import com.synrgy.data.repository.MovieRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -30,7 +33,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class MovieRepositoryImplTest {
 
-    private val dispatcher = StandardTestDispatcher()
+    private val dispatcher = UnconfinedTestDispatcher()
 
     private lateinit var userDao: FakeUserDao
     private lateinit var movieDao: FakeMovieDao
@@ -102,10 +105,10 @@ class MovieRepositoryImplTest {
     fun `addMovieToFavorite, removeMovieFromFavorite, and getFavoriteMovies fetches data from database and converts to MovieListModel`() =
         runTest {
             for (i in 1..5) {
-                repository.addMovieToFavorite(movieListModel)
+                repository.addMovieToFavorite(movieListModel.copy(id = i))
             }
-            repository.removeMovieFromFavorite(movieListModel)
-            val result = repository.getFavoriteMovies()
+            repository.removeMovieFromFavorite(movieListModel.copy(id = 1))
+            val result = repository.getFavoriteMovies().first()
             assertEquals(4, result.size)
         }
 }

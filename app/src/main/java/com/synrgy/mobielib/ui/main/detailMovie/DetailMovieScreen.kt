@@ -6,6 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
@@ -37,9 +41,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.synrgy.common.Resource
 import com.synrgy.domain.model.MovieDetailModel
+import com.synrgy.domain.model.MovieListModel
 import com.synrgy.mobielib.R
 import com.synrgy.mobielib.ui.components.ErrorScreen
 import com.synrgy.mobielib.ui.components.LoadingScreen
+import com.synrgy.mobielib.ui.components.MainButton
 
 @Composable
 fun DetailMovieScreen(
@@ -47,6 +53,8 @@ fun DetailMovieScreen(
     viewModel: DetailMovieViewModel = hiltViewModel(),
 ) {
     val movieDetail by viewModel.movieDetail.collectAsState()
+    val favMovies by viewModel.favMovies.collectAsState()
+    val isFav: Boolean = favMovies.any { it.id == movieId }
 
     LaunchedEffect(Unit) {
         viewModel.getMovieDetail(movieId)
@@ -61,7 +69,27 @@ fun DetailMovieScreen(
         is Resource.Success -> {
             val data = (movieDetail as Resource.Success<MovieDetailModel>).data
             Log.d("DetailMovieScreen", "Success: ${data.title}")
-            DetailMovieContent(movie = data)
+
+            val movie = MovieListModel(
+                id = movieId,
+                title = data.title,
+                posterPath = data.posterPath,
+                overview = data.overview,
+            )
+
+            DetailMovieContent(
+                movie = data,
+                isFav = isFav,
+                onClick = {
+                    if (isFav) {
+                        viewModel.deleteFavMovie(movie)
+                        Log.d("DetailMovieScreen", "DetailMovieContent: Btn Clicked")
+                    } else {
+                        viewModel.addFavMovie(movie)
+                        Log.d("DetailMovieScreen", "DetailMovieContent: Btn Clicked")
+                    }
+                },
+            )
         }
 
         is Resource.Error -> {
@@ -74,8 +102,15 @@ fun DetailMovieScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun DetailMovieContent(movie: MovieDetailModel) {
+fun DetailMovieContent(
+    movie: MovieDetailModel,
+    isFav: Boolean,
+    onClick:() -> Unit,
+) {
+    val rememberScrollState = rememberScrollState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -83,7 +118,9 @@ fun DetailMovieContent(movie: MovieDetailModel) {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState),
         ) {
             Image(
                 painter = rememberAsyncImagePainter(model = "https://image.tmdb.org/t/p/w500${movie.posterPath}"),
@@ -163,7 +200,10 @@ fun DetailMovieContent(movie: MovieDetailModel) {
                         color = Color.LightGray,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    Row {
+                    FlowRow (
+                        horizontalArrangement = Arrangement.spacedBy(2.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         movie.genres.forEach { genre ->
                             genre.let {
                                 Text(
@@ -198,6 +238,26 @@ fun DetailMovieContent(movie: MovieDetailModel) {
                     fontSize = 16.sp,
                     color = Color.White,
                     textAlign = TextAlign.Justify
+                )
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            if (isFav) {
+                MainButton(
+                    modifier = Modifier,
+                    onClick = {
+                        onClick()
+                    },
+                    outlined = true,
+                    labelText = "Remove from Favourites"
+                )
+            } else {
+                MainButton(
+                    modifier = Modifier,
+                    onClick = {
+                        onClick()
+                    },
+                    outlined = false,
+                    labelText = "Add to Favourites"
                 )
             }
         }

@@ -21,6 +21,7 @@ import com.synrgy.common.Screen
 import com.synrgy.domain.model.User
 import com.synrgy.mobielib.ui.auth.AuthViewModel
 import com.synrgy.mobielib.ui.components.TopAppBar
+import com.synrgy.mobielib.ui.main.bookmarks.BookmarksScreen
 import com.synrgy.mobielib.ui.main.detailMovie.DetailMovieScreen
 import com.synrgy.mobielib.ui.main.home.ListMovieScreen
 import com.synrgy.mobielib.ui.main.profile.ProfileScreen
@@ -60,7 +61,9 @@ fun HomeNavigation(
                 },
                 backIcon = currentRoute != Screen.Home.route,
                 profileIcon = currentRoute != Screen.Profile.route,
+                showBookmarkIcon = currentRoute != Screen.Bookmarks.route,
                 profileImage = userData?.profileImg,
+                onBookmarksClick = { navController.navigate(Screen.Bookmarks.route) }
             )
         }
     ) { innerPadding ->
@@ -81,6 +84,11 @@ fun HomeNavigation(
             ) {
                 val movieId = it.arguments?.getInt("movieId") ?: 0
                 DetailMovieScreen(movieId = movieId)
+            }
+            composable(Screen.Bookmarks.route) {
+                BookmarksScreen (
+                    onNavigateToDetailMovie = { navController.navigate(Screen.DetailMovie.createRoute(it)) }
+                )
             }
             composable(Screen.Profile.route) {
                 ProfileScreen(user = userData!!)

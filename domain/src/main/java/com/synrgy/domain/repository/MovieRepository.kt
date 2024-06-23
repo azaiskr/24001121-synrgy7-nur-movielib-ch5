@@ -2,6 +2,7 @@ package com.synrgy.domain.repository
 
 import com.synrgy.domain.model.MovieDetailModel
 import com.synrgy.domain.model.MovieListModel
+import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
     suspend fun getMovieListNowPlaying(): List<MovieListModel>
@@ -9,7 +10,7 @@ interface MovieRepository {
     suspend fun getMovieListTopRated(): List<MovieListModel>
     suspend fun getMovieDetail(movieId: Int): MovieDetailModel
 
-    suspend fun getFavoriteMovies(): List<MovieListModel>
+    fun getFavoriteMovies(): Flow<List<MovieListModel>>
     suspend fun addMovieToFavorite(movie: MovieListModel)
     suspend fun removeMovieFromFavorite(movie: MovieListModel)
 

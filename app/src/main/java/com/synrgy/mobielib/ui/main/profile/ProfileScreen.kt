@@ -19,8 +19,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
@@ -69,9 +71,9 @@ fun ProfileScreen(
     user: User,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
+    val rememberScrollState = rememberScrollState()
     val context = LocalContext.current
     val userData by viewModel.user.observeAsState()
-    val updateDataResponse by viewModel.updateDataResponse.collectAsState()
     val dataProfile = listOf(
         "Username" to userData?.username,
         "Email" to userData?.email,
@@ -154,7 +156,8 @@ fun ProfileScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
