@@ -24,6 +24,7 @@ import java.util.UUID
 
 
 const val TAG = "BLUR_WORKER"
+@Suppress("DEPRECATION")
 class BlurWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
     override fun doWork(): Result {
         val imageUri = inputData.getString(KEY_IMAGE_URI) ?: return Result.failure()

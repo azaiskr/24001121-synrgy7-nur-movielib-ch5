@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    fun showToast(message: String?) {
+    private fun showToast(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 }

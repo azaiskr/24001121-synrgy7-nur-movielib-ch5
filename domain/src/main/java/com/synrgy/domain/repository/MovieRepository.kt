@@ -2,7 +2,6 @@ package com.synrgy.domain.repository
 
 import com.synrgy.domain.model.MovieDetailModel
 import com.synrgy.domain.model.MovieListModel
-import com.synrgy.common.Resource
 
 interface MovieRepository {
     suspend fun getMovieListNowPlaying(): List<MovieListModel>

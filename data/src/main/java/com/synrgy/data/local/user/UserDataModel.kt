@@ -22,19 +22,19 @@ data class UserDataModel(
     val password: String,
 
     @ColumnInfo(name="name")
-    val name: String ?= null,
+    var name: String ?= null,
 
     @ColumnInfo(name ="phone")
-    val phone: String ?= null,
+    var phone: String ?= null,
 
     @ColumnInfo(name = "dob")
-    val dob: String? = null,
+    var dob: String? = null,
 
     @ColumnInfo(name="address")
-    val address: String ?= null,
+    var address: String ?= null,
 
     @ColumnInfo(name ="profileImg")
-    val profileImg: String ?= null,
+    var profileImg: String ?= null,
 ) : Parcelable
 
 fun UserDataModel.toUser(): User {

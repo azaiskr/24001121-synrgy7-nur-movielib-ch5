@@ -1,7 +1,6 @@
 package com.synrgy.mobielib.utils.workers
 
 import android.Manifest
-import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context

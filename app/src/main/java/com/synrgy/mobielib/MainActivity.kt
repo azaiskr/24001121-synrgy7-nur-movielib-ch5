@@ -40,8 +40,7 @@ class MainActivity : AppCompatActivity() {
                 composeView.apply {
                     setContent {
                         HomeNavigation(
-                            user = user,
-                            onLogOut = { viewModel.clearSession() }
+                            user = user
                         )
                     }
                 }

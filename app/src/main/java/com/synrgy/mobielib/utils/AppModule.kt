@@ -6,6 +6,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.synrgy.data.SessionPreferences
 import com.synrgy.data.local.DatabaseImpl
 import com.synrgy.data.local.MIGRATION_2_3
@@ -34,7 +36,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesApiService(): ApiService {
+    fun providesContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+
+    @Singleton
+    @Provides
+    fun providesApiService(@ApplicationContext context: Context): ApiService {
         val loggingInterceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
 
@@ -47,9 +55,17 @@ object AppModule {
             chain.proceed(request)
         }
 
+        val chuckerInterceptor = ChuckerInterceptor.Builder(context)
+            .collector(ChuckerCollector(context, showNotification = true))
+            .maxContentLength(250_000L)
+            .redactHeaders("Authorization", "Bearer")
+            .alwaysReadResponseBody(true)
+            .build()
+
         val client: OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
+            .addInterceptor(chuckerInterceptor)
             .readTimeout(5, TimeUnit.SECONDS)
             .writeTimeout(5, TimeUnit.SECONDS)
             .connectTimeout(5, TimeUnit.SECONDS)

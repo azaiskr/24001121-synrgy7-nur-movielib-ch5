@@ -45,6 +45,7 @@
         <EditText
             android:fontFamily="@font/muli"
             android:id="@+id/etUsername"
+            android:inputType="textPersonName"
             android:textSize="14sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +101,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/confirm_password"
+        android:id="@+id/confirmPassword"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="8dp"
@@ -118,6 +119,7 @@
             android:id="@+id/etConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="password"
             android:inputType="textPassword"
             android:textSize="14sp"
             android:fontFamily="@font/muli"

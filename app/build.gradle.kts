@@ -124,6 +124,10 @@ dependencies {
     //coroutines
     implementation(libs.kotlinx.coroutines.core)
 
+    //chucker
+    debugImplementation (libs.library)
+    releaseImplementation (libs.library.no.op)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

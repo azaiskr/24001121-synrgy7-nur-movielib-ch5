@@ -7,12 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -21,7 +17,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.synrgy.common.Resource
 import com.synrgy.common.Screen
 import com.synrgy.domain.model.User
 import com.synrgy.mobielib.ui.auth.AuthViewModel
@@ -35,7 +30,6 @@ fun HomeNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     user: User,
-    onLogOut: () -> Unit,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -43,7 +37,7 @@ fun HomeNavigation(
     val userData by viewModel.user.observeAsState()
 
     LaunchedEffect(currentRoute) {
-            viewModel.getUser(user.email, user.password)
+        viewModel.getUser(user.email, user.password)
     }
 
     LaunchedEffect(userData) {

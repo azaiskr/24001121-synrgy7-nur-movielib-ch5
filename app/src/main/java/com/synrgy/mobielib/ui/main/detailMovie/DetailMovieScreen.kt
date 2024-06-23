@@ -48,8 +48,6 @@ fun DetailMovieScreen(
 ) {
     val movieDetail by viewModel.movieDetail.collectAsState()
 
-
-
     LaunchedEffect(Unit) {
         viewModel.getMovieDetail(movieId)
     }
@@ -97,15 +95,13 @@ fun DetailMovieContent(movie: MovieDetailModel) {
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            movie.title?.let {
-                Text(
-                    text = it,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
+            Text(
+                text = movie.title,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -153,14 +149,12 @@ fun DetailMovieContent(movie: MovieDetailModel) {
                         color = Color.LightGray,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    movie.releaseDate.let {
-                        Text(
-                            text = it,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Color.White
-                        )
-                    }
+                    Text(
+                        text = movie.releaseDate,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White
+                    )
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
@@ -199,14 +193,12 @@ fun DetailMovieContent(movie: MovieDetailModel) {
                     color = Color.LightGray,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                movie.overview.let {
-                    Text(
-                        text = it,
-                        fontSize = 16.sp,
-                        color = Color.White,
-                        textAlign = TextAlign.Justify
-                    )
-                }
+                Text(
+                    text = movie.overview,
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    textAlign = TextAlign.Justify
+                )
             }
         }
     }

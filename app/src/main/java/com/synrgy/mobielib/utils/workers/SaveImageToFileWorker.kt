@@ -13,20 +13,11 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.synrgy.common.KEY_IMAGE_URI
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 
 private const val TAG_SAVE_IMAGE_TO_FILE = "SaveImageToFileWorker"
 
 class SaveImageToFileWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
-
-    private val title = "Blurred Image"
-    private val dateFormatter = SimpleDateFormat(
-        "yyyy.MM.dd 'at' HH:mm:ss z",
-        Locale.getDefault()
-    )
 
     override fun doWork(): Result {
 

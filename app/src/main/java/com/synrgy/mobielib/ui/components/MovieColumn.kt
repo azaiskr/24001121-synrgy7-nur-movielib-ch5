@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.synrgy.data.remote.response.ResultsItem
 import com.synrgy.domain.model.MovieListModel
 
 

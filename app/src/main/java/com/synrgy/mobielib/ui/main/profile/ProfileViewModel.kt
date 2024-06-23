@@ -19,8 +19,8 @@ import com.synrgy.common.TAG_OUTPUT
 import com.synrgy.domain.model.User
 import com.synrgy.domain.usecase.user.ClearSessionUseCase
 import com.synrgy.domain.usecase.user.GetProfileUseCase
-import com.synrgy.domain.usecase.user.UpdateProfileImageUseCase
 import com.synrgy.domain.usecase.user.UpdateProfileDataUseCase
+import com.synrgy.domain.usecase.user.UpdateProfileImageUseCase
 import com.synrgy.mobielib.utils.workers.BlurWorker
 import com.synrgy.mobielib.utils.workers.CleanUpWorker
 import com.synrgy.mobielib.utils.workers.SaveImageToFileWorker
@@ -28,7 +28,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import okhttp3.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -88,13 +87,6 @@ class ProfileViewModel @Inject constructor(
         updateProfileImageUseCase.invoke(uri = uri, userEmail = email )
     }
 
-//    internal fun setOutputUri(outputImageUri: String?) {
-//        val uri = uriOrNull(outputImageUri)
-//        if (uri != null) {
-//            outputUri.value = uri
-//        }
-//    }
-
     internal fun applyBlur(imageUri: Uri) {
         var continuation = workManager
             .beginUniqueWork(
@@ -113,13 +105,6 @@ class ProfileViewModel @Inject constructor(
         continuation = continuation.then(saveImageOutput.build())
 
         continuation.enqueue()
-    }
-    private fun uriOrNull(uriString: String?): Uri? {
-        return if (!uriString.isNullOrEmpty()) {
-            Uri.parse(uriString)
-        } else {
-            null
-        }
     }
 
 }

@@ -58,7 +58,6 @@ import androidx.work.WorkManager
 import coil.compose.rememberAsyncImagePainter
 import com.synrgy.common.IMAGE_MANIPULATION_WORK_NAME
 import com.synrgy.common.KEY_IMAGE_URI
-import com.synrgy.common.Resource
 import com.synrgy.domain.model.User
 import com.synrgy.mobielib.R
 import com.synrgy.mobielib.ui.components.MainButton
@@ -253,14 +252,6 @@ fun ProfileScreen(
             },
             onConfirm = { name, phone, dob, address ->
                 viewModel.updateUserData(name, phone, dob, address, user.email)
-//                when(updateDataResponse){
-//                    is Resource.Success -> {
-//                        showUpdateDataDialog = false
-//                        Log.d("ProfileScreen", "onConfirm: ${(updateDataResponse as Resource.Success<Unit>).data}")
-//                    }
-//                    is Resource.Error -> Toast.makeText(context, (updateDataResponse as Resource.Error).exception, Toast.LENGTH_SHORT).show()
-//                    else -> {}
-//                }
                 showUpdateDataDialog = false
                 viewModel.getUser(user.email, user.password)
             },

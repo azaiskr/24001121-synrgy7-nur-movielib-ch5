@@ -1,10 +1,6 @@
 package com.synrgy.domain.usecase.user
 
-import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.liveData
-import com.synrgy.common.Resource
-import com.synrgy.domain.model.User
 import com.synrgy.domain.repository.UserRepository
 import javax.inject.Inject
 
