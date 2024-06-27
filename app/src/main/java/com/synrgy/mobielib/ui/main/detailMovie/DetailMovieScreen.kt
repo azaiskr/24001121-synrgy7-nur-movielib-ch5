@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.Firebase
+import com.google.firebase.perf.performance
 import com.synrgy.common.Resource
 import com.synrgy.domain.model.MovieDetailModel
 import com.synrgy.domain.model.MovieListModel
@@ -55,9 +58,14 @@ fun DetailMovieScreen(
     val movieDetail by viewModel.movieDetail.collectAsState()
     val favMovies by viewModel.favMovies.collectAsState()
     val isFav: Boolean = favMovies.any { it.id == movieId }
+    val trace = remember {
+        Firebase.performance.newTrace("load_detail_movie_trace")
+    }
 
     LaunchedEffect(Unit) {
+        trace.start()
         viewModel.getMovieDetail(movieId)
+        trace.stop()
     }
 
     when (movieDetail) {

@@ -7,6 +7,8 @@ plugins {
     id("org.jetbrains.kotlin.kapt") version "1.9.24" apply false
     id("com.google.dagger.hilt.android") version "2.51" apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.google.firebase.firebase.perf) apply false
+    alias(libs.plugins.google.gms.google.services) apply false
 }
 
 buildscript {

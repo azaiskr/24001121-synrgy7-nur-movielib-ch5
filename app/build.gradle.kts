@@ -6,6 +6,8 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.firebase.firebase.perf)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 
@@ -125,6 +127,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.firebase.perf)
     ksp(libs.androidx.room.compiler)
 
     //di

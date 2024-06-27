@@ -11,6 +11,8 @@ import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import com.google.firebase.perf.FirebasePerformance
+import com.google.firebase.perf.metrics.Trace
 import com.synrgy.common.KEY_IMAGE_URI
 import java.io.IOException
 
@@ -19,7 +21,10 @@ private const val TAG_SAVE_IMAGE_TO_FILE = "SaveImageToFileWorker"
 
 class SaveImageToFileWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
 
+    private lateinit var trace: Trace
     override fun doWork(): Result {
+        trace = FirebasePerformance.getInstance().newTrace("save_image_to_file_trace")
+        trace.start()
 
         makeStatusNotification("Saving image", applicationContext)
         sleep()
@@ -54,6 +59,7 @@ class SaveImageToFileWorker(ctx: Context, params: WorkerParameters) : Worker(ctx
             Log.e(TAG_SAVE_IMAGE_TO_FILE, exception.message ?: "")
             makeStatusNotification("Failed to save image : ${exception.message}", applicationContext)
             exception.printStackTrace()
+            trace.stop()
             Result.failure()
         }
     }
@@ -80,6 +86,7 @@ class SaveImageToFileWorker(ctx: Context, params: WorkerParameters) : Worker(ctx
         } else {
             throw IOException("Failed to create new MediaStore record.")
         }
+        trace.stop()
         return uri.toString()
     }
 

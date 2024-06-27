@@ -15,6 +15,8 @@ import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import com.google.firebase.perf.FirebasePerformance
+import com.google.firebase.perf.metrics.Trace
 import com.synrgy.common.KEY_IMAGE_URI
 import com.synrgy.common.OUTPUT_PATH
 import java.io.File
@@ -26,7 +28,11 @@ import java.util.UUID
 const val TAG = "BLUR_WORKER"
 @Suppress("DEPRECATION")
 class BlurWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
+    private lateinit var trace: Trace
     override fun doWork(): Result {
+        trace = FirebasePerformance.getInstance().newTrace("blur_worker_trace")
+        trace.start()
+
         val imageUri = inputData.getString(KEY_IMAGE_URI) ?: return Result.failure()
         makeStatusNotification("Blurring image", applicationContext)
         sleep()
@@ -46,10 +52,13 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
             val output = blurBitmap(bitmap, applicationContext)
             val outputUri = writeBitmapToFile(applicationContext, output)
             val outputData = workDataOf(KEY_IMAGE_URI to outputUri.toString())
+            trace.stop()
             Result.success(outputData)
+
         } catch (throwable: Throwable) {
             Log.e(TAG, "Error applying blur")
             throwable.printStackTrace()
+            trace.stop()
             Result.failure()
         }
     }

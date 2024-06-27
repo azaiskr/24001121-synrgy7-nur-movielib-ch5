@@ -12,6 +12,8 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.google.firebase.Firebase
+import com.google.firebase.perf.FirebasePerformance
 import com.synrgy.common.IMAGE_MANIPULATION_WORK_NAME
 import com.synrgy.common.KEY_IMAGE_URI
 import com.synrgy.common.Resource
@@ -28,6 +30,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
@@ -88,6 +91,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     internal fun applyBlur(imageUri: Uri) {
+        val trace = FirebasePerformance.getInstance().newTrace("apply_blur_trace")
+        trace.start()
+
         var continuation = workManager
             .beginUniqueWork(
                 IMAGE_MANIPULATION_WORK_NAME,
@@ -104,7 +110,9 @@ class ProfileViewModel @Inject constructor(
             .addTag(TAG_OUTPUT)
         continuation = continuation.then(saveImageOutput.build())
 
-        continuation.enqueue()
+        continuation.enqueue().result.addListener({
+            trace.stop()
+        }, Executors.newSingleThreadExecutor())
     }
 
 }

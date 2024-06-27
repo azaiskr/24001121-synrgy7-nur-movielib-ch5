@@ -15,12 +15,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.firebase.perf.FirebasePerformance
+import com.google.firebase.perf.metrics.AddTrace
 import com.synrgy.common.Resource
 import com.synrgy.mobielib.ui.components.ErrorScreen
 import com.synrgy.mobielib.ui.components.LoadingScreen
@@ -38,11 +41,16 @@ fun ListMovieScreen(
     val movieNowPlaying by viewModel.nowPlayingMovies.collectAsState()
     val movieTopRated by viewModel.topRatedMovies.collectAsState()
     val moviePopular by viewModel.popularMovies.collectAsState()
+    val trace = remember {
+        FirebasePerformance.getInstance().newTrace("load_list_movie_trace")
+    }
 
     LaunchedEffect(Unit) {
+        trace.start()
         viewModel.getMovieListNowPlaying()
         viewModel.getMovieListTopRated()
         viewModel.getMovieListPopular()
+        trace.stop()
     }
 
     LazyColumn(

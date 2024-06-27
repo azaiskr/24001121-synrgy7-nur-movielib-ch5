@@ -3,6 +3,7 @@ package com.synrgy.mobielib.ui.main.detailMovie
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.perf.FirebasePerformance
 import com.synrgy.common.Resource
 import com.synrgy.domain.model.MovieDetailModel
 import com.synrgy.domain.model.MovieListModel
